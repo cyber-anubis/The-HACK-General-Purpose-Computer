@@ -1,5 +1,6 @@
 
 /**
+ * Helper chip designed by : Nidal Fikri
  * 16-bit bitwise Nand:
  * for i = 0..15: out[i] = (a[i] nand b[i])
  */
