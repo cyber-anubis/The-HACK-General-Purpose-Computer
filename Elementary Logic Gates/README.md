@@ -1,3 +1,4 @@
 # Project 1:
 Here I've built the specified logic gates by the project authors as well as additional logic gates designed by me to make it a lot easier.
+## Description:
 * Using HDL (Hardware Descriptive Language) in order to build elementary logic gates like And, Or, Not, Multiplexor, and more...
