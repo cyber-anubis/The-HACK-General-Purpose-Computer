@@ -1,0 +1,28 @@
+
+/**
+ * 16-bit-wise And gate against single bit
+ */
+
+CHIP And16Broadcast {
+
+    IN  a[16], b;
+    OUT out[16];
+
+    PARTS:
+	And(a=a[0],b=b,out=out[0]);
+	And(a=a[1],b=b,out=out[1]);
+	And(a=a[2],b=b,out=out[2]);
+	And(a=a[3],b=b,out=out[3]);
+	And(a=a[4],b=b,out=out[4]);
+	And(a=a[5],b=b,out=out[5]);
+	And(a=a[6],b=b,out=out[6]);
+	And(a=a[7],b=b,out=out[7]);
+	And(a=a[8],b=b,out=out[8]);
+	And(a=a[9],b=b,out=out[9]);
+	And(a=a[10],b=b,out=out[10]);
+	And(a=a[11],b=b,out=out[11]);
+	And(a=a[12],b=b,out=out[12]);
+	And(a=a[13],b=b,out=out[13]);
+	And(a=a[14],b=b,out=out[14]);
+	And(a=a[15],b=b,out=out[15]);
+}
