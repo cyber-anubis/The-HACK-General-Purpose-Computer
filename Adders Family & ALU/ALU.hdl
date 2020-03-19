@@ -1,0 +1,83 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/02/ALU.hdl
+
+/**
+ * The ALU (Arithmetic Logic Unit).
+ * Computes one of the following functions:
+ * x+y, x-y, y-x, 0, 1, -1, x, y, -x, -y, !x, !y,
+ * x+1, y+1, x-1, y-1, x&y, x|y on two 16-bit inputs, 
+ * according to 6 input bits denoted zx,nx,zy,ny,f,no.
+ * In addition, the ALU computes two 1-bit outputs:
+ * if the ALU output == 0, zr is set to 1; otherwise zr is set to 0;
+ * if the ALU output < 0, ng is set to 1; otherwise ng is set to 0.
+ */
+
+// Implementation: the ALU logic manipulates the x and y inputs
+// and operates on the resulting values, as follows:
+// if (zx == 1) set x = 0        // 16-bit constant
+// if (nx == 1) set x = !x       // bitwise not
+// if (zy == 1) set y = 0        // 16-bit constant
+// if (ny == 1) set y = !y       // bitwise not
+// if (f == 1)  set out = x + y  // integer 2's complement addition
+// if (f == 0)  set out = x & y  // bitwise and
+// if (no == 1) set out = !out   // bitwise not
+// if (out == 0) set zr = 1
+// if (out < 0) set ng = 1
+
+CHIP ALU {
+    IN  
+        x[16], y[16],  // 16-bit inputs        
+        zx, // zero the x input?
+        nx, // negate the x input?
+        zy, // zero the y input?
+        ny, // negate the y input?
+        f,  // compute out = x + y (if 1) or x & y (if 0)
+        no; // negate the out output?
+
+    OUT 
+        out[16], // 16-bit output
+        zr, // 1 if (out == 0), 0 otherwise
+        ng; // 1 if (out < 0),  0 otherwise
+
+    PARTS:
+	//For the x[16] input, implementing the zx control bit
+	Not(in=zx,out=NotZX);
+	And16Broadcast(a=true,b=NotZX,out=ox1);
+	And16(a=x,b=ox1,out=ox2);
+	
+	//For the y[16] input, implementing the zy control bit
+	Not(in=zy,out=NotZY);
+	And16Broadcast(a=true,b=NotZY,out=oy1);
+	And16(a=y,b=oy1,out=oy2);
+	
+	//For the x[16] input, implementing the nx control bit
+	And16Broadcast(a=true,b=nx,out=ox3);
+	Xor16(a=ox2,b=ox3,out=ox4);
+
+	//For the y[16] input, implementing the ny control bit
+	And16Broadcast(a=true,b=ny,out=oy3);
+	Xor16(a=oy2,b=oy3,out=oy4);
+
+	//Implementation for the f control bit when f == true : do addition 
+	And16Broadcast(a=oy4,b=f,out=f1);
+	Add16(a=f1,b=ox4,out=f2);
+	
+	//Implementation for the f control bit when f == false : do bit-wise And
+	Mux4Way16(a=oy4,b=true,c=true,d=true,sel[0]=f,sel[1]=f,out=f3);
+	And16(a=f2,b=f3,out=f4);
+	
+	//Implementation for the no control bit
+	And16Broadcast(a=true,b=no,out=no1);
+	Xor16(a=f4,b=no1,out=out1);
+	And16(a=true,b=out1,out=out);
+
+	//Implementation for the ng output flag
+	And16(a[0..14]=false,a[15]=true,b=out1,out=ng1);
+	Or16Way(in=ng1,out=ng);
+	
+	//Implementation for the zr output flag
+	Or16Way(in=out1,out=NotZR);
+	Not(in=NotZR,out=zr);
+}
