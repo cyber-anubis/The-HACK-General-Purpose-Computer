@@ -2,6 +2,7 @@
 
 The Nand to Tetris project is about going into fascinating voyage of discovery in which you will go all the way from Boolean algebra and elementary logic gates to building a Central Processing Unit, a memory system, and a hardware platform, leading up to a general-purpose computer that can run any program that you fancy. 
 
+## Todo list:
 * Project 1: Building elementary logic gates like And, Or, Not, Multiplexor, and more 
 * Project 2: Building a family of adder chips, culminating in the construction of an Arithmetic Logic Unit (ALU)  
 * Project 3: Building registers and memory units, culminating in the construction of a Random Access Memory (RAM)  
