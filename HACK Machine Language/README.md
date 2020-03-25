@@ -14,12 +14,16 @@ spaces: an instruction memory and a data memory. Both memories are 16-bit wide a
 ![image](https://user-images.githubusercontent.com/33065305/77532498-a1b2ec80-6e9d-11ea-90e1-c8e8c424005e.png)
 
 **The A-instruction is used to set the A register to a 15-bit value:**
-The A-instruction is used for three different purposes. First, it provides the only way to enter a constant into the computer under program control. Second, it sets the stage for a subsequent C-instruction designed to manipulate a certain data memory location, by first setting A to the address of that location. Third, it sets the stage for a subsequent C-instruction that specifies a jump, by first loading the address of the jump destination to the A register
+The A-instruction is used for three different purposes. First, it provides the only way to enter a constant into the computer under program control. Second, it sets the stage for a subsequent C-instruction designed to manipulate a certain data memory location, by first setting A to the address of that location. Third, it sets the stage for a subsequent C-instruction that specifies a jump, by first loading the address of the jump destination to the A register.
 ![image](https://user-images.githubusercontent.com/33065305/77532726-23a31580-6e9e-11ea-882e-3c0c87c32390.png)
 
+**The C-instruction** is the programming workhorse of the Hack platform—the instruction that gets almost everything done. The instruction code is a specification that answers three questions: (a) what to compute, (b) where to store the computed value, and (c) what to do next? Along with the A-instruction, these specifications determine all the possible operations of the computer.
 ![image](https://user-images.githubusercontent.com/33065305/77532802-49301f00-6e9e-11ea-814b-e0551d7b06d1.png)
 
 ## Input/Output Handling
+
+![image](https://user-images.githubusercontent.com/33065305/77533132-015dc780-6e9f-11ea-9578-020bce37ba51.png)
+
 The Hack platform can be connected to two peripheral devices: a screen and a keyboard. Both devices interact with the computer platform through memory maps. This means that drawing pixels on the screen is achieved by writing binary values into a memory segment associated with the screen. Likewise, listening to the keyboard is done by reading a memory location associated with the keyboard. The physical I/O devices and their memory maps are synchronized via continuous refresh loops.
 
 **Screen** The Hack computer includes a black-and-white screen organized as 256 rows of 512 pixels per row. The screen’s contents are represented by an 8K memory map that starts at RAM address 16384 (0x4000). Each row in the physical screen, starting at the screen’s top left corner, is represented in the RAM by 32 consecutive 16-bit words. Thus the pixel at row r from the top and column c from the left is mapped on the c%16 bit (counting from LSB to MSB) of the word located at RAM[16384 + r * 32 + c/16]. To write or read a pixel of the physical screen, one reads or writes the corresponding bit in the RAM-resident memory map (1 = black, 0 = white). Example:
@@ -32,4 +36,4 @@ M=1 // Blacken the left-most pixel.
 
 **Keyboard** The Hack computer interfaces with the physical keyboard via a single-word memory map located in RAM address 24576 (0x6000). Whenever a key is pressed on the physical keyboard, its 16-bit ASCII code appears in RAM[24576]. When no key is pressed, the code 0 appears in this location. In addition to the usual ASCII codes, the Hack keyboard recognizes a lot more keys.
 
-![image](https://user-images.githubusercontent.com/33065305/77532153-face5080-6e9c-11ea-8905-0ef7e722ab71.png)
+![image](https://user-images.githubusercontent.com/33065305/77533263-3833dd80-6e9f-11ea-8f68-96d3549d9298.png)
