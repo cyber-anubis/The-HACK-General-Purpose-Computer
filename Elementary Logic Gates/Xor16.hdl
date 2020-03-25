@@ -1,5 +1,5 @@
-// Helper gate designed by Nidal Fikri 
 /**
+ * Helper chip designed by : Nidal Fikri
  * 16 bit-wise Exclusive-or gate:
  * out[i] = a[i] Xor b[i]
  */
