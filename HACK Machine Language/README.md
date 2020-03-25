@@ -13,9 +13,11 @@ spaces: an instruction memory and a data memory. Both memories are 16-bit wide a
 **Registers**  The Hack programmer is aware of two 16-bit registers called D and A. These registers can be manipulated explicitly by arithmetic and logical instructions like A=D-1 or D=!A (where ‘‘!’’ means a 16-bit Not operation). While D is used solely to store data values, A doubles as both a data register and an address register. That is to say, depending on the instruction context, the contents of A can be interpreted either as a data value, or as an address in the data memory, or as an address in the instruction memory, as we now explain.
 ![image](https://user-images.githubusercontent.com/33065305/77532498-a1b2ec80-6e9d-11ea-90e1-c8e8c424005e.png)
 
-![image](https://user-images.githubusercontent.com/33065305/77530460-0b30fc00-6e9a-11ea-973e-b4d9c3b33f47.png)
+**The A-instruction is used to set the A register to a 15-bit value:**
+The A-instruction is used for three different purposes. First, it provides the only way to enter a constant into the computer under program control. Second, it sets the stage for a subsequent C-instruction designed to manipulate a certain data memory location, by first setting A to the address of that location. Third, it sets the stage for a subsequent C-instruction that specifies a jump, by first loading the address of the jump destination to the A register
+![image](https://user-images.githubusercontent.com/33065305/77532726-23a31580-6e9e-11ea-882e-3c0c87c32390.png)
 
-![image](https://user-images.githubusercontent.com/33065305/77530671-62cf6780-6e9a-11ea-8533-252e2da8a122.png)
+![image](https://user-images.githubusercontent.com/33065305/77532802-49301f00-6e9e-11ea-814b-e0551d7b06d1.png)
 
 ## Input/Output Handling
 The Hack platform can be connected to two peripheral devices: a screen and a keyboard. Both devices interact with the computer platform through memory maps. This means that drawing pixels on the screen is achieved by writing binary values into a memory segment associated with the screen. Likewise, listening to the keyboard is done by reading a memory location associated with the keyboard. The physical I/O devices and their memory maps are synchronized via continuous refresh loops.
