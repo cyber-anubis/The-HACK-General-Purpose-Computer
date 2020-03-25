@@ -1,6 +1,5 @@
-// This is helper gate by Nidal Fikri
-
 /**
+ * Helper chip designed by : Nidal Fikri
  * 16-way Or: 
  * out = (in[0] or in[1] or ... or in[15])
  */
