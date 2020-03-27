@@ -6,7 +6,7 @@ The Nand to Tetris project is about going into fascinating voyage of discovery i
 * 1-**Elementary Logic Gates:**:heavy_check_mark: Building elementary logic gates like And, Or, Not, Multiplexor, and more 
 * 2-**Adders Family & ALU:**:heavy_check_mark: Building a family of adder chips, culminating in the construction of an Arithmetic Logic Unit (ALU)  
 * 3-**Memory Units:**:heavy_check_mark: Building registers and memory units, culminating in the construction of a Random Access Memory (RAM)  
-* 4-: Learning a machine language and using it to write some illustrative low-level programs 
-* 5-: Using the chipset built in projects 1-3 to build a Central Processing Unit (CPU) and a hardware platform capable of executing programs written in the machine language introduced in project 4
+* 4-**Machine Language:**:heavy_check_mark: Learning a machine language and using it to write some illustrative low-level programs 
+* 5-**Computer Architecture & CPU:**:heavy_check_mark: Using the chipset built in projects 1-3 to build a Central Processing Unit (CPU) and a hardware platform capable of executing programs written in the machine language introduced in project 4
 * 6-: Developing an assembler, i.e. a capability to translate programs written in symbolic machine language into binary, executable code.
 ![overview](https://user-images.githubusercontent.com/33065305/77091388-25d62180-6a11-11ea-841e-331e6df59f40.png)
