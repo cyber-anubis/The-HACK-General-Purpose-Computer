@@ -12,7 +12,7 @@ In the second part of the overall project: we build a modern <ins>**software hie
 
 In particular, I will implement a <ins>**virtual machine**</ins> and a <ins>**compiler**</ins> for a simple, Java-like programming language, and I will develop a basic <ins>**operating system**</ins> that closes gaps between the high-level language and the underlying hardware platform.
 
-In the process, gaining a deep, hands-on understanding of numerous topics in applied computer science, e.g. stack processing, parsing, code generation, and classical algorithms and data structures for memory management, vector graphics, input-output handling, and various other topics that lie at the very core of every modern computer system.
+During the process, gaining a deep, hands-on understanding of numerous topics in applied computer science, <ins>e.g. stack processing, parsing, code generation, and classical algorithms and data structures for memory management, vector graphics, input-output handling</ins>, and various other topics that lie at the very core of every modern computer system.
 
 ## What is going on here in a nutshell?
 
@@ -33,6 +33,13 @@ algorithms, geometric algorithms, running time considerations.
 * **Software engineering:** Modular design, the interface/implementation paradigm,
 API design and documentation, proactive test planning, programming at the large,
 quality assurance.
+
+The four projects that construct the computer platform
+are built using a simple Hardware Description Language (HDL) and simulated on a
+hardware simulator supplied with the book. Five of the subsequent software projects (assembler, virtual machine I and II, and compiler I and II) can be written in any
+modern programming language. The remaining three projects (low-level programming,
+high-level programming, and the operating system) are written in the assembly
+language and high-level language implemented in previous projects.
 
 ## Todo list:
 Sub-projects in real-time progress.
