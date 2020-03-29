@@ -105,7 +105,7 @@ void first_pass(ifstream &file)
 					new_label = false;
 				}
 			}//Counting the line numbers of REAL instructions, ignoring comments and blank lines
-			if (line[0] != '(' and line[0] != '/' and line.size() != 0)	line_cnt++;
+			if (line[0] != '(' && line[0] != '/' && line.size() != 0)	line_cnt++;
 		}												//line.size() = 0 for blank lines in Windows machines only!!
 		if (file.eof()) break;
 	}
