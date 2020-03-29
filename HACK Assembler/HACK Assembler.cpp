@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 	{
 		string line,out;
 		getline(input_file,line);
-		if (line.size() == 1 && isalpha(line[0])) continue;
+		if(line[0] == '\r' || line[0] == '\n') continue;
 		if (line[0] == '@' && line[0] != '(' && line[0] != '/') { out = Decode_A_Instruction(line) ; /*if (out.size() == 16)*/ output_file << out<<endl;}
 		else if (line[0] != '@' && line[0] != '(' && line[0] != '/') {out = Decode_C_Instruction(line) ; /*if (out.size() == 16)*/ output_file << out<<endl;}
 	}
@@ -80,7 +80,7 @@ void first_pass(ifstream &file)
 					new_label = false;
 				}
 			}
-			if (line[0] != '(' and line[0] != '/' and line != "\n")	line_cnt++;
+			if (line[0] != '(' and line[0] != '/' and line[0] != '\n' and line[0] != '\r')	line_cnt++;
 		}
 		if (file.eof()) break;
 	}
