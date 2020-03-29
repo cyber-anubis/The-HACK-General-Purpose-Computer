@@ -51,10 +51,10 @@ Sub-projects in real-time progress.
 * 5-**Computer Architecture & CPU:**:heavy_check_mark: Using the chipset built in projects 1-3 to build a Central Processing Unit (CPU) and a hardware platform capable of executing programs written in the machine language introduced in project 4.
 ### Computer Software Hierarchy
 * 6-**HACK Assembler:**:heavy_check_mark: Developing an assembler, i.e. a capability to translate programs written in symbolic machine language into binary, executable code.
-* 7-**Virtual Machine I: (Stack Arithmetic)**
-* 8-**Virtual Machine II: (Program Control)**
-* 9-**High-Level Language:**
-* 10-**Compiler I: (Syntax Analysis)**
-* 11-**Compiler II: (Code Generation)**
-* 12-**Operating System:**
-* 13-
+* 7-**Virtual Machine I: (Stack Arithmetic)** Creating the first part of my virtual machine
+* 8-**Virtual Machine II: (Program Control)** Creating the 2nd part of my virtual machine
+* 9-**High-Level Language:** Designing and creating the JACK high level programming language!
+* 10-**Compiler I: (Syntax Analysis)** Creating the complier for the JACK high level language
+* 11-**Compiler II: (Code Generation)** Finalizing the compiler for the JACK high level language
+* 12-**Operating System:** Implementing full but simpler Operating system for the HACK computer.
+* 13- More fun to go?
