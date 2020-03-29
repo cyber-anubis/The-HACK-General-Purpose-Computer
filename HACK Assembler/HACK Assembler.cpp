@@ -5,7 +5,7 @@
 #include <bitset>
 using namespace std;
 
-//Symbol tables for mapping HACK machine language pre-defined fields with its coresponding translation.
+//Symbol tables for mapping HACK machine language pre-defined fields with its corresponding translation.
 map <string, string> c_fields_table;
 map <string, string> c_dest_table;
 map <string, string> symbols;
@@ -15,9 +15,11 @@ string Decode_A_Instruction(string line);
 string Decode_C_Instruction(string line);
 void first_pass(ifstream &file);
 bool is_decimal(string num);
+string ignore_white(string line);
 
 int main(int argc, char *argv[])
 {
+	//Initializing the symbol tables and instruction set fields
 	Intialization();
 
 	ofstream output_file;
@@ -26,25 +28,41 @@ int main(int argc, char *argv[])
 	ifstream input_file;
 	input_file.open(argv[1]);
 
+	//Applying the first iteration technique
 	first_pass(input_file);
 
+	//Repositioning at the start of the file after the 1st iteration
 	input_file.clear();
 	input_file.seekg(0);
-
 
 	while(!input_file.eof())
 	{
 		string line,out;
 		getline(input_file,line);
-		if (line.size() == 0) continue;
+		if (line.size() == 0) continue;	//line.size() = 0 for blank lines in Windows machines only!!
+		line = ignore_white(line);	//removing leading whitespaces
 		if (line[0] == '@' && line[0] != '(' && line[0] != '/') {output_file << Decode_A_Instruction(line)<<endl;}
 		else if (line[0] != '@' && line[0] != '(' && line[0] != '/') {output_file << Decode_C_Instruction(line)<<endl;}
 	}
-
 	return 0;
 }
 
+//Simply removes the leading whitespaces
+string ignore_white(string line)
+{
+	string ret="";
+	int index=0;
+	bool done = false;
+	for (int i = 0 ; i < line.size(); i++) {
+		if (done) break;
+		if (line[i] != ' ') {done=true; index=i; break;}
+	}
 
+	for (int i = index; i <line.size(); i++) ret+=line[i];
+	//cout<<"RET is "<<endl;
+	return ret;
+}
+//Simply check if all chars in the string are numbers
 bool is_decimal(string num)
 {
 	int cnt = 0;
@@ -54,37 +72,45 @@ bool is_decimal(string num)
 	return false;
 }
 
-
+/*
+ * Applying the first iteration through all source file to register new variables and labels
+ * In order to evaluate them in the 2nd pass(iteration).
+ *
+ */
 void first_pass(ifstream &file)
 {
+	//Keeping track of line numbers and variables allocation offset
 	int line_cnt=0, allocated=16;
+
 	string line ="";
+	//Parsing for labels first for simplicity
 	while (file.is_open())
 	{
 		while(!file.eof())
 		{
 			getline(file,line);
-			if (line[0]=='(')
+			line = ignore_white(line);	//removing leading whitespaces
+			if (line[0]=='(')	//Label detected
 			{
 				string constant ="";
-				bool new_label = false;
+				bool new_label = false;					//concatenating the name
 				for (int i = 1 ; i<line.size()-1;i++) constant+=line[i];
-				if (symbols[constant] =="") {new_label = true;cout<<"## Label = "<<constant;}
-				if(new_label)
+				if (symbols[constant] =="") {new_label = true;/*cout<<"## Label = "<<constant;*/}
+				if(new_label)									//Debugging msg
 				{
 					bitset<15> no(line_cnt);
 					string binary =no.to_string();
-					cout<<" at "<<binary<<endl;
+					//cout<<" at "<<binary<<endl;	//Debugging msg
 					symbols[constant] =binary;
 					new_label = false;
 				}
-			}
+			}//Counting the line numbers of REAL instructions, ignoring comments and blank lines
 			if (line[0] != '(' and line[0] != '/' and line.size() != 0)	line_cnt++;
-		}
+		}												//line.size() = 0 for blank lines in Windows machines only!!
 		if (file.eof()) break;
 	}
 
-
+	//Repositioning at the start of the file in order to start parsing for variables
 	file.clear();
 	file.seekg(0);
 
@@ -93,20 +119,21 @@ void first_pass(ifstream &file)
 		while(!file.eof())
 			{
 				getline(file,line);
-				if (line[0] == '@')
+				line = ignore_white(line);	//removing leading whitespaces
+				if (line[0] == '@')		//Variable detected (after @ instruction)
 				{
 					string constant ="";
-						bool new_variable = false;
+						bool new_variable = false;			//concatenating the name
 						for (int i = 1 ; i<line.size();i++) constant+=line[i];
 						if (is_decimal(constant)) break;
 
-						if (symbols[constant] =="") {new_variable = true;cout<<"## Variable = "<<constant<<endl;}
-						if (new_variable)
+						if (symbols[constant] =="") {new_variable = true;/*cout<<"## Variable = "<<constant<<endl;*/}
+						if (new_variable)									//Debugging msg
 						{
 							bitset<15> no(allocated);
-							string binary =no.to_string();
+							string binary =no.to_string();	//Debugging msg
 							symbols[constant] =binary;
-							allocated++;
+							allocated++;	//increasing the offset for the upcoming new variables
 							new_variable = false;
 						}
 				}
@@ -115,44 +142,70 @@ void first_pass(ifstream &file)
 		}
 }
 
+/*
+ * Decoding A-Instructions   16 bits width = 0+address[15]
+ *
+ */
 string Decode_A_Instruction(string line)
 {
 	string ret= "";
+	//Extracting(concatenating) the value after the 1st bit
 	string constant="";
+	//Flags to differentiate between decimal constant and non-decimal variable
 	bool symbol = false,decimal = false;
 
-
+	//Concatenating the constant
 	for (int i = 1 ; i<line.size();i++) constant+=line[i];
+	//If decimal constant, set the flag.
+	//Else, evaluate it.
 	if (is_decimal(constant)) decimal = true;
 	else
 	{
 		ret+='0';	//1st bit (MSB)
-		ret+=symbols[constant];
+		ret+=symbols[constant];	//Get the mapped value from the tables.
 	}
-	if (decimal)	//decimal value
+
+	if (decimal)	//decimal value, concatenating the result
 	{
 	string arg ="";
 	for(int i = line.size()-1 ; i > 0 ;i--) arg+=line[i];
 	reverse(arg.begin(),arg.end());
 	int arg2 =stoi(arg);
+	//Using bitset for conversion
 	bitset<16> no(arg2);
 	string binary =no.to_string();
 	ret+=binary;
 	}
+//Returning the final output
 return ret;
 }
 
+/*
+ * Decoding C-Instructions   16 bits width = 111ac1c2c3c4c5c6d1d2d3j1j2j3
+ *
+ */
 string  Decode_C_Instruction(string line)
 {
 	string ret="";
+	//Concatenating each field of the C-Instruction
 	string comp="",des="",jump="";
+	//Spliting the fields via '=' and ';' signs
 	bool equal_sign = false,semi_colon_sign =false;
 	int equal_sign_index =-1,semi_colon_sign_index=-1;
 
-
+	//Setting field flags and indices
 	for(int i = 0 ; i<line.size();i++)	if(line[i]=='=') {equal_sign=true;equal_sign_index=i; break;cout<<"= @ "<<equal_sign_index<<endl;}
 	for(int i = 0 ; i<line.size();i++)	if(line[i]==';') {semi_colon_sign=true;semi_colon_sign_index=i;break;}
 
+	/*
+	 * According the '=' and ';' signs, we will build a tree to cover every possible test case of the C-Instruction
+	 * 												( = ) "must be always available"
+	 * 									( ; )					( ; )
+	 * 								NO         YES			NO         YES
+	 *						    	M=1		  0;JMP        M=D+1      A=-1;J:E
+	 *
+	 * This is handled in the nested if statements below, then concatenating every field using the '=' and ';' signs.
+	 */
 	if (equal_sign)
 	{
 		if (semi_colon_sign)
@@ -183,7 +236,7 @@ string  Decode_C_Instruction(string line)
 			jump="null";
 		}
 	}
-
+	//Concatenating the final string to be returned.
 	ret+="111";
 	ret+=c_fields_table[comp];
 	ret+=c_dest_table[des];
@@ -193,16 +246,13 @@ string  Decode_C_Instruction(string line)
 return ret;
 }
 
-
-
+/*
+ * Initializing all the symbol table to be used in mapping.
+ * Including all predefined symbols and fields as well as the newly dynamically allocated during runtime.
+ * All the mapping is done according to the HACK machine language specification.
+ */
 void Intialization()
 {
-	/*
-	 * Initializing all the symbol table to be used in mapping.
-	 * Including all predefined symbols and fields as well as the newly dynamically allocated during runtime.
-	 * All the mapping is done according to the HACK machine language specification.
-	 */
-
 	//Comp field table
 	c_fields_table["0"]="0101010";
 	c_fields_table["1"]="0111111";
