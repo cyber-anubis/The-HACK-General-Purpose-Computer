@@ -5,6 +5,7 @@
 #include <bitset>
 using namespace std;
 
+//Symbol tables for mapping HACK machine language pre-defined fields with its coresponding translation.
 map <string, string> c_fields_table;
 map <string, string> c_dest_table;
 map <string, string> symbols;
@@ -14,7 +15,6 @@ string Decode_A_Instruction(string line);
 string Decode_C_Instruction(string line);
 void first_pass(ifstream &file);
 bool is_decimal(string num);
-int line_cnt = 0;
 
 int main(int argc, char *argv[])
 {
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 	output_file.open("out.hack",ios::trunc);
 
 	ifstream input_file;
-	input_file.open("Fill.asm");
+	input_file.open(argv[1]);
 
 	first_pass(input_file);
 
@@ -36,9 +36,9 @@ int main(int argc, char *argv[])
 	{
 		string line,out;
 		getline(input_file,line);
-		if(line[0] == '\r' || line[0] == '\n') continue;
-		if (line[0] == '@' && line[0] != '(' && line[0] != '/') { out = Decode_A_Instruction(line) ; /*if (out.size() == 16)*/ output_file << out<<endl;}
-		else if (line[0] != '@' && line[0] != '(' && line[0] != '/') {out = Decode_C_Instruction(line) ; /*if (out.size() == 16)*/ output_file << out<<endl;}
+		if (line.size() == 0) continue;
+		if (line[0] == '@' && line[0] != '(' && line[0] != '/') {output_file << Decode_A_Instruction(line)<<endl;}
+		else if (line[0] != '@' && line[0] != '(' && line[0] != '/') {output_file << Decode_C_Instruction(line)<<endl;}
 	}
 
 	return 0;
@@ -57,11 +57,11 @@ bool is_decimal(string num)
 
 void first_pass(ifstream &file)
 {
-	int allocated=16;
+	int line_cnt=0, allocated=16;
 	string line ="";
 	while (file.is_open())
 	{
-	while(!file.eof())
+		while(!file.eof())
 		{
 			getline(file,line);
 			if (line[0]=='(')
@@ -69,7 +69,6 @@ void first_pass(ifstream &file)
 				string constant ="";
 				bool new_label = false;
 				for (int i = 1 ; i<line.size()-1;i++) constant+=line[i];
-
 				if (symbols[constant] =="") {new_label = true;cout<<"## Label = "<<constant;}
 				if(new_label)
 				{
@@ -80,7 +79,7 @@ void first_pass(ifstream &file)
 					new_label = false;
 				}
 			}
-			if (line[0] != '(' and line[0] != '/' and line[0] != '\n' and line[0] != '\r')	line_cnt++;
+			if (line[0] != '(' and line[0] != '/' and line.size() != 0)	line_cnt++;
 		}
 		if (file.eof()) break;
 	}
@@ -279,7 +278,5 @@ void Intialization()
 	symbols["SCREEN"]="100000000000000";
 	symbols["KBD"]="110000000000000";
 
-	//More symbols will be dynamically added in runtime to handle variables and code labels
-
-
+	//More symbols will be dynamically added in "runtime" to handle variables and code labels
 }
