@@ -23,7 +23,14 @@ int main(int argc, char *argv[])
 	Intialization();
 
 	ofstream output_file;
-	output_file.open("out.hack",ios::trunc);
+	if (argc == 3)
+	{
+		string o = "";
+		o+=argv[2];
+		o+=".hack";
+		output_file.open(o,ios::trunc);
+	}
+	else output_file.open("out.hack",ios::trunc);
 
 	ifstream input_file;
 	input_file.open(argv[1]);
