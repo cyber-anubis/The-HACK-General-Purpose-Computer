@@ -51,9 +51,9 @@ Sub-projects in real-time progress.
 * 5-**Computer Architecture & CPU:**:heavy_check_mark: Using the chipset built in projects 1-3 to build a Central Processing Unit (CPU) and a hardware platform capable of executing programs written in the machine language introduced in project 4.
 ### Computer Software Hierarchy
 * 6-**HACK Assembler:**:heavy_check_mark: Developing an assembler, i.e. a capability to translate programs written in symbolic machine language into binary, executable code.
-* 7-**Virtual Machine I: (Stack Arithmetic)**:heavy_check_mark: Creating the first part of my virtual machine
-* 8-**Virtual Machine II: (Program Control)**:heavy_check_mark: Creating the 2nd part of my virtual machine
-* 9-**High-Level Language:**:heavy_check_mark: Designing and creating the JACK high level programming language!
+* 7-**Virtual Machine I: (Stack Arithmetic)**:heavy_check_mark: Building a stack-based virtual machine. This implementation, in turn, will serve as the backend module of the two-tier compiler that will be developed later. In this first part, stack-based arithmetic operations & memory access operations will be handled.
+* 8-**Virtual Machine II: (Program Control)**:heavy_check_mark:  In this project I'll complete the VM translator by implementing the remaining VM language's branching and function-calling commands. Implementing concepts like: program flow (if statments), loops (while), function calling (stack frame saving & retrieving) ...etc.
+* 9-**High-Level Language:**:heavy_check_mark: Designing and creating the JACK high level programming language; object-based Java-like language. Implemented concepts: procedural programming, object-based programming, classes, methods, functions, constructors, list processing, recursion, developing interactive applications (Game will be developed), graphics optimization.
 * 10-**Compiler I: (Syntax Analysis)** Creating the complier for the JACK high level language
 * 11-**Compiler II: (Code Generation)** Finalizing the compiler for the JACK high level language
 * 12-**Operating System:** Implementing full but simpler Operating system for the HACK computer.
