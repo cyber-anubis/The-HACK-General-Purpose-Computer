@@ -34,12 +34,6 @@ algorithms, geometric algorithms, running time considerations.
 API design and documentation, proactive test planning, programming at the large,
 quality assurance.
 
-The four projects that construct the computer platform
-are built using a simple Hardware Description Language (HDL) and simulated on a
-hardware simulator supplied with the book. Five of the subsequent software projects (assembler, virtual machine I and II, and compiler I and II) can be written in any
-modern programming language. The remaining three projects (low-level programming,
-high-level programming, and the operating system) are written in the assembly
-language and high-level language implemented in previous projects.
 
 ## Todo list:
 Sub-projects in real-time progress.
