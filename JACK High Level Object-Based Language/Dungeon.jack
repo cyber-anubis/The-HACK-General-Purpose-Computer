@@ -1,0 +1,144 @@
+/**This function is used to draw the arena walls and animations of the characters*/
+class Dungeon {
+   
+   static int base;
+   static int iter;
+   
+function void wall(int location) {
+    var int memAddress;
+	let memAddress = 16384+location;
+	do Memory.poke(memAddress+0, -129);
+	do Memory.poke(memAddress+32, 1056);
+	do Memory.poke(memAddress+64, 1056);
+	do Memory.poke(memAddress+96, 1056);
+	do Memory.poke(memAddress+128, -33);
+	do Memory.poke(memAddress+160, 8456);
+	do Memory.poke(memAddress+192, 8456);
+	do Memory.poke(memAddress+224, 8456);
+	do Memory.poke(memAddress+256, -9221);
+	do Memory.poke(memAddress+288, 1056);
+	do Memory.poke(memAddress+320, 1056);
+	do Memory.poke(memAddress+352, 1056);
+	do Memory.poke(memAddress+384, -5121);
+	do Memory.poke(memAddress+416, 8456);
+	do Memory.poke(memAddress+448, 8456);
+	do Memory.poke(memAddress+480, -4675);
+	return;
+}
+
+function void creep(int location) {
+	var int memAddress;
+	let memAddress = 16384+location;
+	do Memory.poke(memAddress+0, 8196);
+	do Memory.poke(memAddress+32, 4104);
+	do Memory.poke(memAddress+64, 4080);
+	do Memory.poke(memAddress+96, 8184);
+	do Memory.poke(memAddress+128, 14748);
+	do Memory.poke(memAddress+160, 31134);
+	do Memory.poke(memAddress+192, -1);
+	do Memory.poke(memAddress+224, -16387);
+	do Memory.poke(memAddress+256, -30703);
+	do Memory.poke(memAddress+288, -30703);
+	do Memory.poke(memAddress+320, -12681);
+	do Memory.poke(memAddress+352, 3696);
+	do Memory.poke(memAddress+384, 0);
+	do Memory.poke(memAddress+416, 0);
+	do Memory.poke(memAddress+448, 0);
+	do Memory.poke(memAddress+480, 0);
+	return;
+}
+
+function void boss(int location) {
+	var int memAddress;
+	let memAddress = 16384+location;
+	do Memory.poke(memAddress+0, 16386);
+	do Memory.poke(memAddress+32, 16386);
+	do Memory.poke(memAddress+64, 32766);
+	do Memory.poke(memAddress+96, 32766);
+	do Memory.poke(memAddress+128, 25542);
+	do Memory.poke(memAddress+160, 25542);
+	do Memory.poke(memAddress+192, 32766);
+	do Memory.poke(memAddress+224, 16380);
+	do Memory.poke(memAddress+256, 16380);
+	do Memory.poke(memAddress+288, 11316);
+	do Memory.poke(memAddress+320, 3504);
+	do Memory.poke(memAddress+352, 12684);
+	do Memory.poke(memAddress+384, 16380);
+	do Memory.poke(memAddress+416, 0);
+	do Memory.poke(memAddress+448, 0);
+	do Memory.poke(memAddress+480, 0);
+	return;
+}
+function void hero(int location) {
+	var int memAddress;
+	let memAddress = 16384+location;
+	do Memory.poke(memAddress+0, 1008);
+	do Memory.poke(memAddress+32, 1008);
+	do Memory.poke(memAddress+64, 1752);
+	do Memory.poke(memAddress+96, 1008);
+	do Memory.poke(memAddress+128, 1008);
+	do Memory.poke(memAddress+160, 192);
+	do Memory.poke(memAddress+192, 8190);
+	do Memory.poke(memAddress+224, 7158);
+	do Memory.poke(memAddress+256, 7158);
+	do Memory.poke(memAddress+288, 7158);
+	do Memory.poke(memAddress+320, 1008);
+	do Memory.poke(memAddress+352, 816);
+	do Memory.poke(memAddress+384, 816);
+	do Memory.poke(memAddress+416, 816);
+	do Memory.poke(memAddress+448, 1848);
+	do Memory.poke(memAddress+480, 0);
+	return;
+}
+
+function void draw_Rect() {
+	do Screen.drawLine(50,50,50,200);
+	do Screen.drawLine(50,50,462,50);
+	do Screen.drawLine(50,200,462,200);
+	do Screen.drawLine(462,200,462,50);
+	return;
+}
+	
+function void draw_dungeon () {
+	do Screen.setColor(true);
+	do Dungeon.draw_Rect();
+	
+	let base = 1187;
+	let iter = 0;
+	
+	while (iter < 26){
+	do Dungeon.wall(base+iter);
+	let iter = iter +1;
+	}
+	
+	let iter = 0;
+	
+	while (iter < 10){
+	do Dungeon.wall(base+512);
+	let base = base + 512;
+	let iter = iter +1;
+	}
+	
+	let iter = 0;
+	
+	while (iter < 26){
+	do Dungeon.wall(base+iter);
+	let iter = iter +1;
+	}
+	
+	let iter = 0;
+	let base = 6428;
+	
+	while (iter < 10){
+	do Dungeon.wall(base-512);
+	let base = base - 512;
+	let iter = iter +1;
+	}
+	
+	
+	return;
+
+}
+ 
+  
+}

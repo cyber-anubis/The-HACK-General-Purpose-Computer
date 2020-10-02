@@ -1,0 +1,264 @@
+class Character {
+
+   field int type;
+   field int x;
+   field int y;
+   field int location;
+   field int direction;
+   static int seed;
+   
+   constructor Character new (int x_, int y_ , int type_){
+		let x = x_;
+		let y = y_;
+		let type = type_;
+		
+		return this;
+   }
+   
+   method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+   }
+   
+   
+   //Retreving stats
+   method int get_x() {
+		return x;
+   }
+   
+   method int get_y() {
+		return y;
+   }
+   
+   
+   
+   //Draw the appropriate animation for the character.
+   method void draw_char (){
+		let location = x + (y*32) ;
+		//do Output.printString ("HERE");
+		if (type = 1){
+			//do Output.printString ("HERO");
+			do Dungeon.hero(location);
+		}
+		if (type = 2){
+			do Dungeon.creep(location);
+		}
+		if (type = 3){
+			do Dungeon.boss(location);
+		}
+		return;
+   }
+   
+   //used for moving the character =>  erasing and drawing.
+   method void erase_char(int x1,int y1) {
+	var int memAddress;
+	var int location;
+	let location = x1+(y1*32);
+	let memAddress = 16384+location;
+	do Memory.poke(memAddress+0, 0);
+	do Memory.poke(memAddress+32, 0);
+	do Memory.poke(memAddress+64, 0);
+	do Memory.poke(memAddress+96, 0);
+	do Memory.poke(memAddress+128, 0);
+	do Memory.poke(memAddress+160, 0);
+	do Memory.poke(memAddress+192, 0);
+	do Memory.poke(memAddress+224, 0);
+	do Memory.poke(memAddress+256, 0);
+	do Memory.poke(memAddress+288, 0);
+	do Memory.poke(memAddress+320, 0);
+	do Memory.poke(memAddress+352, 0);
+	do Memory.poke(memAddress+384, 0);
+	do Memory.poke(memAddress+416, 0);
+	do Memory.poke(memAddress+448, 0);
+	do Memory.poke(memAddress+480, 0);
+	return;
+}
+   
+   
+   //Implemented function for the absolute math operation.
+   method int abs_sub (int a , int b) {
+		var int min;
+		var int max;
+		
+		let min = Math.min(a,b);
+		let max = Math.max(a,b);
+		
+		return (max-min);
+   }
+	//Implemented Modulo math function for generating random numbers.
+	function int mod (int a, int b) {
+		var int div;
+		let div = a / b;
+		let div = a - (div*b);
+		return div;
+	}
+	
+	
+	//For checking if there are two characters in the same location
+	method boolean validate (Character hero, Character creep) {
+		var int x_h ; 
+		var int y_h; 
+		var int x_c; 
+		var int y_c;
+		
+		let x_c = creep.get_x();
+		let y_c = creep.get_y();
+		let x_h = hero.get_x();
+		let y_h = hero.get_y();
+		
+		if ( abs_sub(x_h,x_c) = 1 ) {
+			if ((abs_sub(y_h,y_c) < 2)) {return true;}
+		}
+		
+		
+		return false;
+	}
+	
+	
+
+  method void move_up(){
+		if ((y-10)< 55) {return;}
+		
+		do erase_char(x,y);
+		
+		let y = y -10;
+		do draw_char();
+		return;
+  }
+
+  method void move_down(){
+		if ((y+10)>180) {return;}
+		
+		do erase_char(x,y);
+		
+		let y = y +10;
+		do draw_char();
+		return;
+  }
+
+  method void move_right(){
+		if ((x+1)>27) {return;}
+		
+		do erase_char(x,y);
+
+		let x = x+1;
+		do draw_char();
+		return;
+  }
+
+  method void move_left(){
+		if ((x-1)<4) {return;}
+		
+		do erase_char(x,y);
+		
+		let x = x-1;
+		do draw_char();
+		return;
+  } 
+
+
+	//Presenting final score then halts.
+	function void die (int score) {
+		do Screen.clearScreen();
+		
+		do Output.moveCursor(10,20);
+		do Output.printString("YOU DIED!");
+		do Output.moveCursor(11,20);
+		do Output.printString("Score = ");
+		do Output.printInt(score);
+		
+		return;
+	}
+ 
+	/** Moves the square in the current direction. */
+   method void moveChar(int direction) {
+      if (direction = 1) { do move_up(); do Sys.wait(10);}
+      if (direction = 2) { do move_down(); do Sys.wait(10);}
+      if (direction = 3) { do move_left(); do Sys.wait(100); }
+      if (direction = 4) { do move_right(); do Sys.wait(100);}
+      do Sys.wait(5);  // delays the next movement
+      return;
+   }
+   
+   
+	method void run(Character hero, Character creep1,Character creep2,Character creep3,Character creep4,Character creep5,Character creep6,Character creep7) {
+      var char key;  // the key currently pressed by the user
+      var boolean exit;
+	  var int random ;
+	  var char key1;
+	  var char key2;
+	  var boolean moved;
+	  var int score ;
+	  
+      let exit = false;
+      let moved = false;
+	  
+	  let score = 1;
+	 
+      while (~exit) {
+		
+         // waits for a key to be pressed
+         while (key = 0) {
+            let key = Keyboard.keyPressed();
+			let random = random +1;
+			//let key1 = key;
+            //do moveChar();
+         }
+		 
+		 
+		 let random = Character.mod(random,4);
+		 
+		 if (random = 0) {do creep1.moveChar(1);do creep2.moveChar(4);do creep3.moveChar(2);
+						  do creep4.moveChar(2);do creep5.moveChar(3);do creep6.moveChar(3);
+						  do creep7.moveChar(1);
+		 }
+		 if (random = 1) {do creep1.moveChar(3);do creep2.moveChar(2);do creep3.moveChar(4);
+						  do creep4.moveChar(3);do creep5.moveChar(1);do creep6.moveChar(4);
+						  do creep7.moveChar(2);
+		 
+		 }
+		 if (random = 2) {do creep1.moveChar(2);do creep2.moveChar(1);do creep3.moveChar(1);
+						  do creep4.moveChar(1);do creep5.moveChar(2);do creep6.moveChar(1);
+						  do creep7.moveChar(3);
+		 }
+		 if (random = 3) {do creep1.moveChar(4);do creep2.moveChar(3);do creep3.moveChar(3);
+						  do creep4.moveChar(2);do creep5.moveChar(2);do creep6.moveChar(2);
+						  do creep7.moveChar(4);
+		 }
+	
+		 let moved = false;	
+		 
+		 if (validate(hero,creep1)) {let exit = true; do Character.die(score);}
+		 if (validate(hero,creep2)) {let exit = true; do Character.die(score);}
+		 if (validate(hero,creep3)) {let exit = true; do Character.die(score);}		 
+		 if (validate(hero,creep4)) {let exit = true; do Character.die(score);}
+		 if (validate(hero,creep5)) {let exit = true; do Character.die(score);}
+		 if (validate(hero,creep6)) {let exit = true; do Character.die(score);}
+		 if (validate(hero,creep7)) {let exit = true; do Character.die(score);}
+		 
+         if (key = 81)  { let exit = true; }     	// q key
+         if (key = 131) { do moveChar(1); let random = Memory.peek(0);}   	// up arrow
+         if (key = 133) { do moveChar(2); }   	// down arrow
+         if (key = 130) { do moveChar(3); }   	// left arrow
+         if (key = 132) { do moveChar(4); let random = Memory.peek(0);}   	// right arrow
+		 
+		
+		 
+         // waits for the key to be released
+         while (~(key = 0)) {
+            let key = Keyboard.keyPressed();
+			let random = random -1;
+			//let key2 = key;
+		   // do moveChar();
+         }
+		 
+		do Output.moveCursor(20,7);
+		do Output.printString("Score = ");
+		do Output.printInt(score);
+		
+		let score = score +1;
+		
+     } // while
+     return;
+   }  
+}

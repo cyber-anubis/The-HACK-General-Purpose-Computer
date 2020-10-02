@@ -1,0 +1,58 @@
+class Menu {
+	static string player_name;
+	
+	function void greetings() {
+		do Output.moveCursor(5,7);
+		let player_name = Keyboard.readLine("Hello! Pls enter your name: ");
+		
+		do Output.moveCursor(7,7);
+		do Output.printString("Welcome to The Hell Arena!");
+		do Output.moveCursor(9,7);
+		do Output.printString("Here you can not fight monsters, you only ");
+		do Output.moveCursor(11,7);
+		do Output.printString("can run and hide! Stay alive as much as you can.");
+		
+		return;
+	}
+	
+	
+	function void game_rules() {
+		
+		do Output.moveCursor(5,7);
+		do Output.printString("Game Rules are as follows:");
+		do Output.moveCursor(7,7);
+		do Output.printString("1- Movement of the monsters is dependent on ");
+		do Output.moveCursor(8,7);
+		do Output.printString("RANDOMNESS.");
+		do Output.moveCursor(10,7);
+		do Output.printString("2- You die when you predict a wrong location");
+		do Output.moveCursor(11,7);
+		do Output.printString("predicted by a monster.");
+		
+		do Output.moveCursor(13,7);
+		do Output.printString("3- Survive more, earn more points.");
+		do Output.moveCursor(15,7);
+		do Output.printString("Good luck! ");
+		do Output.printString(player_name);
+		
+		return;
+	}
+	
+	function void run_menu (){
+	
+		do Screen.setColor(true);
+		do Dungeon.draw_Rect();
+		do Menu.greetings();
+		do Sys.wait(7000);
+		
+		do Screen.clearScreen();
+		
+		do Dungeon.draw_Rect();
+		do Menu.game_rules();
+		do Sys.wait(7000);
+		
+		do Screen.clearScreen();
+		return;
+	}
+		
+}

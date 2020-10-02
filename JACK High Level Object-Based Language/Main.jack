@@ -1,0 +1,55 @@
+class Main {
+    
+   function void main() {
+		
+		var Character player;
+		var Character creep1;
+		var Character creep2;
+		var Character creep3;
+		var Character creep4;
+		var Character creep5;
+		var Character creep6;
+		var Character boss;
+		
+		do Menu.run_menu();
+		
+		do Dungeon.draw_dungeon();
+		
+		let player = Character.new(26,180,1);
+		do player.draw_char();
+		
+		let creep1 = Character.new(12,100,2);
+		do creep1.draw_char();
+		
+		let creep2 = Character.new(25,80,2);
+		do creep2.draw_char();
+		
+		let creep3 = Character.new(20,155,2);
+		do creep3.draw_char();
+		
+		let creep4 = Character.new(26,80,2);
+		do creep4.draw_char();
+		
+		let creep5 = Character.new(19,90,2);
+		do creep5.draw_char();
+		
+		let creep6 = Character.new(15,160,2);
+		do creep6.draw_char();
+		
+		let boss = Character.new(8,102,3);
+		do boss.draw_char();
+		
+		do player.run(player,creep1,creep2,creep3,creep4,creep5,creep6,boss);
+		
+		do hero.dispose();
+		do boss.dispose();
+		do creep1.dispose();
+		do creep2.dispose();
+		do creep3.dispose();
+		do creep4.dispose();
+		do creep5.dispose();
+		do creep6.dispose();
+   
+		return;
+   }
+}
